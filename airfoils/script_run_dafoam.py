@@ -223,7 +223,7 @@ class Top(Multipoint):
         self.connect("shape", "geometry.shape")
 
         # define the design variables to the top level
-        self.add_design_var("shape", lower=-1.0, upper=1.0, scaler=10.0)
+        self.add_design_var("shape", lower=-0.1, upper=0.1, scaler=10.0)
         # here we fix the U0 magnitude and allows the aoa to change
         self.add_design_var("patchV", lower=[U0, -10.0], upper=[U0, 10.0], scaler=0.1)
 
