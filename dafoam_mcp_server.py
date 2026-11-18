@@ -327,6 +327,10 @@ async def airfoil_view_flow_field(
         Message indicating the status. Must show the HTML link and the path to the combine PNG in bold to users.
     """
 
+    allowed_flow_fields = {"U", "T", "p", "nut"}
+    if flow_field not in allowed_flow_fields:
+        return f"Invalid flow_field: {flow_field!r}. Allowed values: U, T, p, nut."
+
     bash_command = (
         f"cd {airfoil_path} && "
         f"pvpython --no-mpi script_plot_flow_field.py -x_location={x_location} -y_location={y_location} "
@@ -447,6 +451,9 @@ async def view_cfd_convergence(
         case_path = airfoil_path
     elif module == "wing":
         case_path = wing_path
+
+    if not all(c.isalnum() or c in "._-" for c in log_file):
+        return f"Invalid log_file: {log_file!r}. Only letters, digits, '.', '_', '-' allowed."
 
     bash_command = (
         f"cd {case_path} && "
@@ -1178,6 +1185,10 @@ async def wing_view_flow_field(mean_chord: float = 1.0, wing_span: float = 3.0, 
     Outputs:
         Message indicating the status. Must show the HTML link and the path to the combine PNG in bold to users.
     """
+
+    allowed_flow_fields = {"U", "T", "p", "nut"}
+    if flow_field not in allowed_flow_fields:
+        return f"Invalid flow_field: {flow_field!r}. Allowed values: U, T, p, nut."
 
     bash_command = (
         f"cd {wing_path} && "
